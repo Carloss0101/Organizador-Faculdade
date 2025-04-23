@@ -19,6 +19,17 @@ O **Organizador de Faculdade** é um site que ajuda estudantes a gerenciar suas 
 - **Autenticação**: JSON Web Tokens (jsonwebtoken)
 - **Banco de Dados**: MongoDB
 
+##Como Rodar
+
+- Abra o projeto em seu Visual Studio Code
+- Abra o terminal e digite cd backend
+- Instale as dependencias necessárias com o comando npm i
+- Dentro da pasta backend crie o arquivo .env. Esse arquivo deve conter as seguintes variáveis:
+    DB_USER: seu nome de usuário do banco MongoDB.
+    DB_PASS: sua senha do banco MongoDB.
+    SECRET: uma chave secreta composta por números e letras aleatórias, usada para assinar tokens de autenticação.
+- Abra o terminal novamente, dentro da pasta backend, de o comando npm start para inicipar o programa.
+
 ## Contribuindo
 
 Se você deseja contribuir para este projeto, fique à vontade para abrir **issues** ou enviar **pull requests**.
