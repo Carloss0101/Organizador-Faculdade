@@ -28,7 +28,7 @@ O **Organizador de Faculdade** é um site que ajuda estudantes a gerenciar suas 
     DB_USER: seu nome de usuário do banco MongoDB.
     DB_PASS: sua senha do banco MongoDB.
     SECRET: uma chave secreta composta por números e letras aleatórias, usada para assinar tokens de autenticação.
-- Abra o terminal novamente, dentro da pasta backend, de o comando npm start para inicipar o programa.
+- Abra o terminal novamente, dentro da pasta backend, de o comando npm start para iniciar o programa.
 
 ## Contribuindo
 
