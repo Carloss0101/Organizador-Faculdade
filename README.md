@@ -19,7 +19,7 @@ O **Organizador de Faculdade** é um site que ajuda estudantes a gerenciar suas 
 - **Autenticação**: JSON Web Tokens (jsonwebtoken)
 - **Banco de Dados**: MongoDB
 
-##Como Rodar
+## Como Rodar
 
 - Abra o projeto em seu Visual Studio Code
 - Abra o terminal e digite cd backend
