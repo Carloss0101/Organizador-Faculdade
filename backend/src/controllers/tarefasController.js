@@ -10,7 +10,7 @@ export async function listarTarefaByMes(req, res) {
     const { mes } = req.params;
     const userId = req.userId
 
-    const resultado = await tarefasService.listarTarefas({ id, mes });
+    const resultado = await tarefasService.listarTarefas({ userId, mes });
 
     res.status(resultado.status).json({ mensagem: resultado.mensagem, tarefas: resultado.tarefas });
 }

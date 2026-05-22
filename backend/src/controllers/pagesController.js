@@ -19,12 +19,7 @@ export function renderPage(req, res) {
 
     let filePath;
 
-    if (page === "index") {
-        filePath = path.join(__dirname, "..", "..", "frontend", "index.html");
-
-    } else {
-        filePath = path.join(__dirname, "..", "..", "frontend", "assets", "pages", `${page}.html`);
-    }
+    filePath = path.join(__dirname, "..", "..", "frontend", "assets", "pages", `${page}.html`);
 
     return res.sendFile(filePath);
 }

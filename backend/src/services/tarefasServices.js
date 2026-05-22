@@ -1,4 +1,7 @@
+import mongoose from "mongoose";
+import Tarefa from "../models/tarefa.js";
 import User from "../models/user.js";
+
 
 export async function criarTarefa(data) {
     if(!data) {
@@ -34,23 +37,24 @@ export async function criarTarefa(data) {
 }
 
 export async function listarTarefas(data) {
-    if(!data || !data.id || !data.data) {
-        return {status:401, mensagem:"datas inválidos."}
+    console.log(data)
+    if(!data || !data.userId || !data.mes) {
+        return {status:401, mensagem:"dados inválidos."}
     }
 
-    if(data.data < 1 || data.data > 12) {
+    if(data.mes < 1 || data.mes > 12) {
         return {status:401, mensagem:"Mês inválido."}
     }
 
-    if (!mongoose.Types.ObjectId.isValid(data.id)) {
+    if (!mongoose.Types.ObjectId.isValid(data.userId)) {
         return {status:401, mensagem:"ID inválido."}
     }
 
     try {
         const tarefas = await Tarefa.find({
-        userId: data.id,
+        userId: data.userId,
         "dados.data": {
-            $regex: `^\\d{4}-${String(data.data).padStart(2, "0")}-`,
+            $regex: `^\\d{4}-${String(data.mes).padStart(2, "0")}-`,
         },
         });
         return { status: 200, mensagem:'Tarefas atualizadas.', tarefas };

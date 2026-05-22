@@ -1,0 +1,33 @@
+:root {
+    --color-background: #101728;
+    --color-primary: #260e69;
+    --color-secondary: #1f41bb;
+    --color-success: #14922b;
+    --color-danger: #610303;
+    --color-white: #ffffff;
+    --color-gray: #cccccc;
+    --color-hover: #0056b3;
+    --color-button: #007bff;
+    --color-message: #2a3b66;
+
+    --font-default: Arial, sans-serif;
+
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+
+    --transition-default: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--color-white);
+}
+
+body {
+    height: 100vh;
+    background-color: var(--color-background);
+    font-family: var(--font-default);
+}

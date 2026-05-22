@@ -17,7 +17,7 @@ export async function login(email, senha) {
     }
 
     console.log('Login válido:', email, senha)
-    return { isLoginValido: true, userId: usuario.userId};
+    return { isLoginValido: true, userId: usuario._id};
 }
 
 export async function cadastro(data) {

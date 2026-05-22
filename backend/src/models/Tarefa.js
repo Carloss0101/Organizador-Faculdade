@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const Tarefa = mongoose.model("Tarefa", {
   userId: {
@@ -13,12 +13,10 @@ const Tarefa = mongoose.model("Tarefa", {
   },
   dados: {
     materia: { type: String, required: true },
-    titulo: {type: String, required: false},
+    titulo: { type: String, required: false },
     data: { type: String, required: true },
     concluido: { type: Boolean, default: false },
   },
 });
 
-module.exports = Tarefa;
-
-
+export default Tarefa;

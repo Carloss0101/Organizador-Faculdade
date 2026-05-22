@@ -10,6 +10,7 @@ export async function validarLogin(req, res, next) {
             return res.status(401).json({mensagem: "Token inválido."});
         }
         
+        console.log("Middware ID: ", resultado.idUser)
         req.userId = resultado.idUser;
         
         next();

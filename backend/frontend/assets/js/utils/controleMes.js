@@ -1,4 +1,4 @@
-import atualizarTarefas from "./atualizarTarefas.js";
+import { atualizarTarefas } from "../services/tarefasService.js";
 
 const nomesDosMeses = [
   "Janeiro",
