@@ -9,9 +9,10 @@ body {
 
 header {
     width: 100%;
-    padding: 10px 20px;
+    padding: 15px 40px; 
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between; 
+    align-items: center;
 }
 
 .bi-person-circle {
@@ -227,4 +228,72 @@ button {
 
 #context-menu button:hover {
     background: rgba(255,255,255,.1);
+}
+
+.bi-person-circle {
+    font-size: 2.5rem;
+    margin-right: 0; 
+}
+
+#btnUploadPlanejamento {
+    background-image: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border: 2px solid transparent;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    color: var(--color-white);
+    cursor: pointer;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+#btnUploadPlanejamento i {
+    color: var(--color-white);
+    font-size: 1.1rem;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+}
+
+#btnUploadPlanejamento:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+    filter: brightness(1.1);
+}
+
+#btnUploadPlanejamento:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(0, 242, 254, 0.3);
+}
+
+#loading-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; 
+    pointer-events: all; 
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(255, 255, 255, 0.1);
+    border-top: 6px solid #00f2fe; 
+    border-radius: 50%;
+    animation: girar 1s linear infinite;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

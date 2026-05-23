@@ -144,17 +144,11 @@ export async function atualizarTarefas(id, dataMes) {
       infoDiv.appendChild(icon);
 
       const data = document.createElement("p");
-      const dataFormatada = new Date(tarefa.dados.data).toLocaleDateString(
-        "pt-BR",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }
-      );
+      
+      const [anoItem, mesItem, diaItem] = tarefa.dados.data.split("-");
+      const dataFormatada = `${diaItem}/${mesItem}/${anoItem}`;
 
       data.textContent = dataFormatada;
-
       infoDiv.appendChild(data);
 
       if (new Date(tarefa.dados.data) < new Date(dataAtualFormatada) && !tarefa.dados.concluido) {

@@ -1,6 +1,7 @@
 import { calcularDataAtual, passarMes, voltarMes } from "./utils/controleMes.js";
-import { abrirModalTarefa } from "./utils/modais.js";
+import { abrirModalTarefa, abrirModalPlanejamento } from "./utils/modais.js";
 import { atualizarTarefas } from "./services/tarefasService.js";
+
 
 const idUser = localStorage.getItem("idUser");
 
@@ -26,4 +27,8 @@ document.getElementById("adicionarTrabalho").addEventListener("click", () => {
 
 document.getElementById("adicionarProva").addEventListener("click", () => {
   abrirModalTarefa(idUser, "prova");
+});
+
+document.getElementById("btnUploadPlanejamento").addEventListener("click", () => {
+  abrirModalPlanejamento(idUser);
 });

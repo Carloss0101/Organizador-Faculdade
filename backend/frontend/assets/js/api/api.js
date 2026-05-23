@@ -125,3 +125,23 @@ export async function editarTarefaApi(id, dados) {
     resultado,
   };
 }
+
+export async function enviarPlanejamentoApi(materia, arquivo) {
+  const formData = new FormData();
+  formData.append("planejamento", arquivo); 
+  formData.append("materia", materia);
+
+  const response = await fetch(`${API_URL}/api/tarefas/upload-planejamento`, {
+    method: "POST",
+    body: formData,
+    credentials: "include", 
+  });
+
+  const resultado = await response.json();
+
+  return {
+    status: response.status,
+    ok: response.ok,
+    resultado,
+  };
+}

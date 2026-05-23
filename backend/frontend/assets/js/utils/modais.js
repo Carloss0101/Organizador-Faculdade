@@ -1,5 +1,8 @@
-import { adicionarTarefa, editarTarefa } from "../services/tarefasService.js";
+import { enviarPlanejamentoApi } from "../api/api.js"; 
+import { mostrarLoading, esconderLoading } from "./loading.js";
 import { calcularDataAtual } from "./controleMes.js";
+import { atualizarTarefas } from "../services/tarefasService.js";
+import gerarMensagemNaTela from "../services/mensagensService.js";
 
 export function abrirModalTarefa(idUser, tipo, tarefa = null) {
   const existente = document.getElementById("modal-overlay");
@@ -82,4 +85,85 @@ export function abrirModalTarefa(idUser, tipo, tarefa = null) {
   });
 
   document.body.appendChild(overlay);
+}
+
+export function abrirModalPlanejamento(idUser) {
+  const existente = document.getElementById("modal-overlay"); 
+  if (existente) existente.remove(); 
+
+  const overlay = document.createElement("div"); 
+  overlay.id = "modal-overlay"; 
+
+  const modal = document.createElement("div"); 
+  modal.id = "modal"; 
+
+  const tituloModal = document.createElement("h1"); 
+  tituloModal.textContent = "Importar Planejamento"; 
+
+  const form = document.createElement("div"); 
+  form.className = "modal-form"; 
+
+  const inputMateria = document.createElement("input"); 
+  inputMateria.type = "text"; 
+  inputMateria.placeholder = "Nome da disciplina (ex: Cálculo I)"; 
+  inputMateria.maxLength = 30; 
+
+  const inputArquivo = document.createElement("input");
+  inputArquivo.type = "file";
+  inputArquivo.accept = ".htm, .html"; 
+
+  const btnContainer = document.createElement("div"); 
+  btnContainer.className = "modal-buttons"; 
+
+  const btnCancelar = document.createElement("button"); 
+  btnCancelar.textContent = "Cancelar"; 
+
+  const btnCarregar = document.createElement("button"); 
+  btnCarregar.textContent = "Carregar"; 
+
+  btnCancelar.addEventListener("click", () => { 
+    overlay.remove(); 
+  }); 
+
+  btnCarregar.addEventListener("click", async () => { 
+    const materia = inputMateria.value.trim(); 
+    const arquivo = inputArquivo.files[0]; 
+
+    if (!materia || !arquivo) { 
+      alert("Por favor, preencha o nome da disciplina e selecione um arquivo de Planejamento (.htm ou .html).");
+      return; 
+    } 
+
+    overlay.remove(); 
+    mostrarLoading(); 
+    gerarMensagemNaTela("Lendo e interpretando planejamento...", "var(--color-button)"); 
+
+    try { 
+      const { ok, status, resultado } = await enviarPlanejamentoApi(materia, arquivo); 
+
+      if (ok) { 
+        gerarMensagemNaTela(resultado.mensagem, "var(--color-success)"); 
+        const { numeroMes } = calcularDataAtual(); 
+        await atualizarTarefas(idUser, numeroMes); 
+      } else { 
+        gerarMensagemNaTela(`[Erro ${status}] ${resultado.mensagem}`, "var(--color-danger)"); 
+      } 
+    } catch (error) { 
+      console.error(error); 
+      gerarMensagemNaTela("Não foi possível processar o arquivo.", "var(--color-danger)"); 
+    } finally { 
+      esconderLoading(); 
+    } 
+  }); 
+
+  btnContainer.append(btnCancelar, btnCarregar); 
+  form.append(inputMateria, inputArquivo); 
+  modal.append(tituloModal, form, btnContainer); 
+  overlay.appendChild(modal); 
+
+  overlay.addEventListener("click", (e) => { 
+    if (e.target === overlay) overlay.remove(); 
+  }); 
+
+  document.body.appendChild(overlay); 
 }
