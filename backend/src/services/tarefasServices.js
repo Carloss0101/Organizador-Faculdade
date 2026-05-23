@@ -65,6 +65,7 @@ export async function listarTarefas(data) {
 }
 
 export async function AtualizarStatusTarefa(idTarefa, status, userId) {
+    console.log(status, typeof status);
     try {
         if (!mongoose.Types.ObjectId.isValid(idTarefa)) {
             return {
@@ -72,7 +73,7 @@ export async function AtualizarStatusTarefa(idTarefa, status, userId) {
                 mensagem: "ID inválido."
             };
         }
-        if (status !== true && status !== false) {
+        if (status != "true" && status != "false") {
             return {
                 status: 400,
                 mensagem: "Status inválido."
@@ -94,5 +95,58 @@ export async function AtualizarStatusTarefa(idTarefa, status, userId) {
     } catch (error) {
         console.error(error);
         return { status: 500, mensagem: "Erro interno no servidor."};
+    }
+}
+
+export async function deletarTarefa(idTarefa, userId) {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(idTarefa)) {
+            return {status: 400, mensagem: "ID inválido."};
+        }
+
+        const tarefa = await Tarefa.findOneAndDelete({_id: idTarefa, userId});
+
+        if (!tarefa) {
+            return {status: 404,mensagem: "Tarefa não encontrada."};
+        }
+
+        return {status: 200, mensagem: "Tarefa excluída com sucesso."};
+
+    } catch (error) {
+        console.error(error);
+        return {status: 500, mensagem: "Erro interno."};
+    }
+}
+
+export async function editarTarefa(idTarefa, dados, userId) {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(idTarefa)) {
+            return {status: 400, mensagem: "ID inválido."};
+        }
+
+        const tarefa = await Tarefa.findOneAndUpdate(
+            {
+                _id: idTarefa,
+                userId
+            },
+            {
+                "dados.materia": dados.materia,
+                "dados.titulo": dados.titulo,
+                "dados.data": dados.data
+            },
+            {
+                new: true
+            }
+        );
+
+        if (!tarefa) {
+            return {status: 404,mensagem: "Tarefa não encontrada."};
+        }
+
+        return {status: 200,mensagem: "Tarefa atualizada com sucesso."};
+
+    } catch (error) {
+        console.error(error);
+        return {status: 500,mensagem: "Erro interno."};
     }
 }

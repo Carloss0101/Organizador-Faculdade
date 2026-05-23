@@ -23,3 +23,23 @@ export async function atualizarStatusTarefa(req, res) {
 
     res.status(resultado.status).json({ mensagem: resultado.mensagem});
 }
+
+export async function deletarTarefa(req, res) {
+    const { id } = req.params;
+
+    const resultado = await tarefasService.deletarTarefa(id, req.userId);
+
+    return res.status(resultado.status).json({
+        mensagem: resultado.mensagem
+    });
+}
+
+export async function editarTarefa(req, res) {
+    const { id } = req.params;
+
+    const resultado = await tarefasService.editarTarefa(id, req.body, req.userId);
+
+    return res.status(resultado.status).json({
+        mensagem: resultado.mensagem
+    });
+}

@@ -1,6 +1,7 @@
-import { adicionarTarefa } from "../services/tarefasService.js";
+import { adicionarTarefa, editarTarefa } from "../services/tarefasService.js";
+import { calcularDataAtual } from "./controleMes.js";
 
-export function abrirModalTarefa(idUser, tipo) {
+export function abrirModalTarefa(idUser, tipo, tarefa = null) {
   const existente = document.getElementById("modal-overlay");
   if (existente) existente.remove();
 
@@ -10,8 +11,12 @@ export function abrirModalTarefa(idUser, tipo) {
   const modal = document.createElement("div");
   modal.id = "modal";
 
-  const titulo = document.createElement("h1");
-  titulo.textContent = tipo === "prova" ? "Cadastrar Prova" : "Cadastrar Trabalho";
+  const tituloModal = document.createElement("h1");
+  tituloModal.textContent = tarefa
+    ? "Editar Tarefa"
+    : tipo === "prova"
+      ? "Cadastrar Prova"
+      : "Cadastrar Trabalho";
 
   const form = document.createElement("div");
   form.className = "modal-form";
@@ -20,14 +25,18 @@ export function abrirModalTarefa(idUser, tipo) {
   inputMateria.type = "text";
   inputMateria.placeholder = "Nome da matéria";
   inputMateria.maxLength = 30;
+  inputMateria.value = tarefa?.dados.materia || "";
 
   const inputTitulo = document.createElement("input");
   inputTitulo.type = "text";
-  inputTitulo.placeholder = tipo === "prova" ? "Nome da prova" : "Nome do trabalho";
+  inputTitulo.placeholder =
+    tipo === "prova" ? "Nome da prova" : "Nome do trabalho";
   inputTitulo.maxLength = 30;
+  inputTitulo.value = tarefa?.dados.titulo || "";
 
   const inputData = document.createElement("input");
   inputData.type = "date";
+  inputData.value = tarefa?.dados.data || "";
 
   const btnContainer = document.createElement("div");
   btnContainer.className = "modal-buttons";
@@ -36,7 +45,7 @@ export function abrirModalTarefa(idUser, tipo) {
   btnCancelar.textContent = "Cancelar";
 
   const btnSalvar = document.createElement("button");
-  btnSalvar.textContent = "Cadastrar";
+  btnSalvar.textContent = tarefa ? "Salvar" : "Cadastrar";
 
   btnCancelar.addEventListener("click", () => {
     overlay.remove();
@@ -52,14 +61,20 @@ export function abrirModalTarefa(idUser, tipo) {
       return;
     }
 
-    await adicionarTarefa(idUser, materia, titulo, tipo, data);
+    if (tarefa) {
+      const { numeroMes } = calcularDataAtual();
+
+      await editarTarefa(tarefa._id, { materia, titulo, data }, idUser, numeroMes);
+    } else {
+      await adicionarTarefa(idUser, materia, titulo, tipo, data);
+    }
 
     overlay.remove();
   });
 
   btnContainer.append(btnCancelar, btnSalvar);
   form.append(inputMateria, inputTitulo, inputData);
-  modal.append(titulo, form, btnContainer);
+  modal.append(tituloModal, form, btnContainer);
   overlay.appendChild(modal);
 
   overlay.addEventListener("click", (e) => {

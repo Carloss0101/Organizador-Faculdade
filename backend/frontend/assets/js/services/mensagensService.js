@@ -1,4 +1,10 @@
 export default function gerarMensagemNaTela(msg, color) {
+    const notificacaoExistente = document.getElementById("embadmsg");
+
+    if (notificacaoExistente) {
+        return;
+    }
+
     const div = document.createElement("div");
     div.id = "embadmsg";
 
@@ -11,10 +17,15 @@ export default function gerarMensagemNaTela(msg, color) {
 
     div.appendChild(p);
     div.appendChild(barraProgresso);
+
     document.body.appendChild(div);
 
     setTimeout(() => {
         div.classList.add("fadeOut");
-        setTimeout(() => div.remove(), 500);
+
+        setTimeout(() => {
+            div.remove();
+        }, 500);
+
     }, 2000);
 }

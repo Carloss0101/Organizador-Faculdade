@@ -91,3 +91,37 @@ export async function alterarStatus(idTarefa, novoStatus) {
     resultado,
   };
 }
+
+export async function deletarTarefaApi(id) {
+  const response = await fetch(`${API_URL}/api/tarefas/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  const resultado = await response.json();
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    resultado,
+  };
+}
+
+export async function editarTarefaApi(id, dados) {
+  const response = await fetch(`${API_URL}/api/tarefas/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dados),
+    credentials: "include",
+  });
+
+  const resultado = await response.json();
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    resultado,
+  };
+}
