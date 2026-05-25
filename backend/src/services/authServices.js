@@ -39,7 +39,7 @@ export async function cadastro(data) {
         return { status: 422, mensagem: "Senha inválida" };
     }
 
-    const usuarioExistente = await User.findOne({ email: dado.email });
+    const usuarioExistente = await User.findOne({ email: data.email });
 
     if (usuarioExistente) {
         return { status: 401, mensagem: "Usuário já cadastrado." };
@@ -48,17 +48,18 @@ export async function cadastro(data) {
     //Informações válidas, salva o usuario no banco.
 
     const salt = await bcrypt.genSalt(12);
-    const passwordHash = await bcrypt.hash(dado.senha, salt);
+    const passwordHash = await bcrypt.hash(data.senha, salt);
+    console.log("Senha original:", data.senha);
 
     const usuario = new User({
-        nome: dado.nome,
-        email: dado.email,
+        nome: data.nome,
+        email: data.email,
         senha: passwordHash,
     });
 
     try {
         await usuario.save();
-
+        console.log("Usuário criado com sucesso:", usuario.email);
         return { status: 201, mensagem: "Usuário criado com sucesso." }
     } catch (error) {
         console.log("Erro na criação de usuário:", error)

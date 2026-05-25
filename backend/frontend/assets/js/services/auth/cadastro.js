@@ -1,4 +1,4 @@
-import { cadastro } from "../../api.js";
+import { cadastro } from "../../api/api.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("form");

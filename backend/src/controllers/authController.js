@@ -17,6 +17,6 @@ export async function login(req, res) {
 
 
 export async function register(req, res) {
-    const {status, mensagem} = await authService.Cadastro(req.body)
+    const {status, mensagem} = await authService.cadastro(req.body)
     return res.status(status).json({mensagem: mensagem})
 }
