@@ -2,9 +2,7 @@ import * as cheerio from "cheerio";
 import Tarefa from "../models/tarefa.js";
 
 export async function processarPlanejamentoPdf(buffer, userId, nomeMateria) {
-  console.log("\n=======================================================");
-  console.log(`▶ INICIANDO CONTROLO DE DUPLICAÇÃO DE ITENS: [${nomeMateria}]`);
-  console.log("=======================================================");
+  console.log(`INICIANDO CONTROLO DE DUPLICAÇÃO DE ITENS: [${nomeMateria}]`);
 
   const html = buffer.toString("latin1");
   const $ = cheerio.load(html);
@@ -91,7 +89,6 @@ export async function processarPlanejamentoPdf(buffer, userId, nomeMateria) {
           const tarefaExistente = tarefasCriadas[indiceExistente];
           
           if (tituloTarefa.length > tarefaExistente.dados.titulo.length) {
-            console.log(`[ATUALIZADO] Título mais completo encontrado para o dia ${dataLocalCorreta}: "${tituloTarefa}"`);
             tarefaExistente.dados.titulo = tituloTarefa;
           } else {
             console.log(`[IGNORADO] Item duplicado detectado para o mesmo dia e tipo: ${dataLocalCorreta} [${tipo.toUpperCase()}]`);
@@ -118,13 +115,9 @@ export async function processarPlanejamentoPdf(buffer, userId, nomeMateria) {
     });
   });
 
-  console.log("\n=======================================================");
   if (tarefasCriadas.length > 0) {
-    console.log(`Persistindo ${tarefasCriadas.length} tarefas limpas e desduplicadas no MongoDB...`);
     await Tarefa.insertMany(tarefasCriadas);
-    console.log("Sincronização concluída com sucesso!");
   }
-  console.log("=======================================================\n");
 
   return tarefasCriadas;
 }
