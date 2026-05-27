@@ -4,7 +4,7 @@ import * as authController from "../controllers/authController.js";
 
 const router = express.Router();
 
-router.post("/register", authController.register);
+router.post("/cadastro", authController.register);
 
 router.post("/login", authController.login);
 
